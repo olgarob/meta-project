@@ -1,0 +1,43 @@
+.grid-container {
+  display: grid;
+ background-color: yellow;
+ 
+
+}
+
+
+
+ 
+.specials {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  background: #ffffff;
+  font-weight: bold;
+  margin-bottom: 10px;
+  margin-left: 70px;
+  margin-right: 70px;
+  padding: 20px;
+}
+.testimonials {
+  background-color: black;
+  color: red;
+  
+}
+.about {
+  background-color: gray;
+  
+}
+
+
+
+.colcontent {
+  padding: 25px;
+  margin: 8px 8px 12px 8px;
+  background-color: red;
+  color: #12343b;
+  text-align: justify;
+  text-justify: inter-word;
+}

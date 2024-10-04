@@ -1,38 +1,65 @@
-.App {
-  text-align: center;
+/* <uniquifier>: Use a unique and descriptive class name */
+/* <weight>: Use a value from 200 to 800 this is for karla */
+
+/* <uniquifier>: Use a unique and descriptive class name */
+/*<weight>: Use a value from 400 to 700 this is for markazi */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  font-family: "Karla", sans-serif;
+  font-size: 1rem;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.img-responsive {
+  height: auto;
+  max-width: 100%;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.button-container {
+  display:flex;
+  align-content: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.primary-yellow {
+  cursor: pointer;
+  background-color: #f4ce14;
+  border: none;
+  color: #333333;
+  outline: none;
+  padding: 15px 32px; 
+  /*margin: 10px; */
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1.2rem;
+  font-weight: 500;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.primary-yellow:hover {
+  background-color: #333333;
+  color: #ffffff;
+}
+
+@media (max-width: 960px) {
+  /* Adjust grid properties for smaller screens */
+  .primary-yellow {font-size: 0.9rem;
+    padding: 10px 20px; }
+}
+
+@media (max-width: 480px) {
+  /* Adjust grid properties for smaller screens */
+  .primary-yellow {font-size: 0.9rem;
+    padding: 10px 20px;}
+}
+
+
+.markazi-text-something {
+  font-family: "Markazi Text", serif;
+  font-optical-sizing: auto;
+  font-weight: 200;
+  font-style: normal;
 }
