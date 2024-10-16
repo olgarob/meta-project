@@ -3,12 +3,35 @@
 
 /* <uniquifier>: Use a unique and descriptive class name */
 /*<weight>: Use a value from 400 to 700 this is for markazi */
+:root {
+  --black: #2b2d42;
+  --white: #fff;
+  --lightgray: #edefee;
+  --darkgray: #333333;
+  --primary_yellow:#f4ce14;
+  --primary_green: #495e57;
+  --secondary_dark: #ee9972;
+  --secondary_light: #fbdabb;
+}
 
 * {
   box-sizing: border-box;
+  padding: 0;
   margin: 0;
+}
+
+body {
   font-family: "Karla", sans-serif;
-  font-size: 1rem;
+  font-size: 16px;
+ 
+  /* line-height: 1.4; */
+  /* color: var(--black);
+  background: var(--platinum); */
+ 
+}
+
+a {
+  text-decoration: none;
 }
 
 .img-responsive {
@@ -16,22 +39,23 @@
   max-width: 100%;
 }
 
-.button-container {
-  display:flex;
-  align-content: center;
-  justify-content: center;
+.rounded-img {
+  border-radius: 16px;
 }
 
-.primary-yellow {
+.button-container {
+  display:flex;
+  /* align-content: center; */
+  /* justify-content: center; */
+  
+}
+
+.button-big {
   cursor: pointer;
-  background-color: #f4ce14;
   border: none;
-  color: #333333;
   outline: none;
   padding: 15px 32px; 
-  /*margin: 10px; */
   text-align: center;
-  text-decoration: none;
   display: inline-block;
   font-size: 1.2rem;
   font-weight: 500;
@@ -39,10 +63,62 @@
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
 
-.primary-yellow:hover {
-  background-color: #333333;
-  color: #ffffff;
+.button-small {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  padding: 6px 12px; 
+  text-align: center;
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 300;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
+
+.primary-yellow {
+  background-color: var(--primary_yellow);
+  color: var(--darkgray);
+}
+
+.primary-yellow a{
+  color: var(--darkgray);
+}
+.primary-yellow:hover {
+  background-color: var(--darkgray);
+  color: var(--white);
+}
+
+.primary-yellow:hover a {
+  color: var(--white);
+}
+
+.primary-green {
+  background-color: var(--primary_green);
+  color: var(--white);
+}
+
+.primary-green a {
+  color: var(--white);
+}
+
+.primary-green:hover {
+  background-color: var(--secondary_dark);
+  color: var(--darkgray);
+}
+
+.primary-green:hover a {
+  color: var(--darkgray);
+}
+
+
+
+
+
+
+
+.item-1 { justify-self: start }
+.item-2 { justify-self: end }
 
 @media (max-width: 960px) {
   /* Adjust grid properties for smaller screens */
@@ -55,7 +131,15 @@
   .primary-yellow {font-size: 0.9rem;
     padding: 10px 20px;}
 }
+.sub-title {
+  font-family: "Karla", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
 
+.pl-55 {
+  padding-left: 55px;
+}
 
 .markazi-text-something {
   font-family: "Markazi Text", serif;

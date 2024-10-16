@@ -4,18 +4,19 @@ footer {
   grid-template-rows:auto;
   grid-gap: 2rem;
   justify-items: center;
+  /* align-items: center; */
   background: #495E57;
   color: #ffffff;
-  padding-left: 70px;
-  padding-right: 70px;
+  padding: 20px 70px 20px 70px;
   text-align: center;
+  font-size: 0.8rem;
 }
 @media (max-width: 960px) {
   /* Adjust grid properties for smaller screens */
   footer {
   grid-template-columns: 1fr;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 50px;
+  padding-right: 50px;
   }
 }
 

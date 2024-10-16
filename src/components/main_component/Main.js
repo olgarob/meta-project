@@ -1,35 +1,17 @@
 import React from "react";
+import { Routes, Route, Link } from "react-router-dom";
 import "./main_styles.css";
+import HomePage from "../homepage_component/HomePage";
+import BookingPage from "../booking_component/BookingPage";
+
 const Main = () => {
   return (
     <main className="grid-container">
-      <div className="specials">
-        <div className="colcontent">
-          <p>
-            this is the place for the main content
-          </p>
-        </div>
-        <div className="colcontent">
-          <p>
-            this is the place for the main content
-          </p>
-        </div>
-        <div className="colcontent">
-          <p>
-            this is the place for the main content
-          </p>
-        </div>
-      </div>
-      <div className="testimonials">
-        <p>aqui van los testimonios</p>
-      </div>
-      <div className="about">
-        <p>aqui va about</p>
-      </div>
-
-      
-        
-      </main>
+      <Routes> 
+        <Route path="/" element={<HomePage />}></Route>
+        <Route path="/booking" element={<BookingPage />}></Route>
+      </Routes>
+    </main>
   );
 };
 export default Main;

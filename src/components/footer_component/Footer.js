@@ -13,12 +13,9 @@ const Footer = () => {
       
       <div>
         <ul>
-          <li><a href="#">doormat1</a></li>
-          <li><a href="#">doormat2</a></li>
-          <li><a href="#">doormat3</a></li>
-          <li><a href="#">doormat4</a></li>
-          <li><a href="#">doormat5</a></li>
-          <li><a href="#">doormat6</a></li>
+          <li><a href="#">Terms and conditions</a></li>
+          <li><a href="#">Locations</a></li>
+          <li><a href="#">Contact</a></li>
         </ul>
       </div>
       <div>
