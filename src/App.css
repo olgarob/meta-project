@@ -5,7 +5,7 @@
 /*<weight>: Use a value from 400 to 700 this is for markazi */
 :root {
   --black: #2b2d42;
-  --white: #fff;
+  --white: #f3f3f3;
   --lightgray: #edefee;
   --darkgray: #333333;
   --primary_yellow:#f4ce14;
@@ -20,19 +20,80 @@
   margin: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: "Karla", sans-serif;
   font-size: 16px;
- 
-  /* line-height: 1.4; */
-  /* color: var(--black);
-  background: var(--platinum); */
- 
+   /* color: var(--black);
+  background: var(--white); */
 }
 
 a {
   text-decoration: none;
 }
+
+h1 {
+  font-family: "Markazi Text", serif;
+  font-size: 4rem;
+  font-optical-sizing: auto;
+  font-weight: 200;
+  font-style: normal;
+  line-height: 80%;
+  /* margin-top: 20px; */
+}
+
+h3 {
+  font-family: "Markazi Text", serif;
+  font-size: 2.5rem;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 90%;
+  padding-bottom: 10px;
+}
+
+h4 {
+  font-family: "Markazi Text", serif;
+  font-size: 1.4rem;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 90%;
+  padding-bottom: 5px;
+}
+
+h5 {
+  font-family: "Markazi Text", serif;
+  font-size: 1.2rem;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 100%;
+  padding-bottom: 5px;
+}
+
+p {
+  font-family: "Karla", sans-serif;
+  font-size: 1rem;
+}
+
+.yellow-txt {
+  color: var(--primary_yellow);
+}
+
+.white-txt {
+  color: var(--white);
+}
+
+.container-fluid {
+  width: 100%;
+  margin: 0 auto;
+  /* background-color: #f4ce14; */
+}
+
 
 .img-responsive {
   height: auto;
@@ -45,35 +106,46 @@ a {
 
 .button-container {
   display:flex;
-  /* align-content: center; */
-  /* justify-content: center; */
-  
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  /* border: 1px solid #ccc; */
+  padding: 12px 15px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  /* text-align: center; */
+  display: inline-block;
+  text-transform: uppercase;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: 0.3s;
 }
 
 .button-big {
-  cursor: pointer;
-  border: none;
-  outline: none;
-  padding: 15px 32px; 
-  text-align: center;
-  display: inline-block;
+  /* width: 240px; */
+  padding: 15px 30px; 
   font-size: 1.2rem;
   font-weight: 500;
-  border-radius: 10px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
 
 .button-small {
-  cursor: pointer;
-  border: none;
-  outline: none;
   padding: 6px 12px; 
-  text-align: center;
-  display: inline-block;
   font-size: 0.8rem;
   font-weight: 300;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.w-100 {
+  width: 100px;
+}
+
+button:disabled,
+button[disabled] {
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
 }
 
 .primary-yellow {
@@ -111,26 +183,37 @@ a {
   color: var(--darkgray);
 }
 
-
-
-
-
-
+.text-center {
+  text-align: center;
+}
 
 .item-1 { justify-self: start }
 .item-2 { justify-self: end }
 
-@media (max-width: 960px) {
-  /* Adjust grid properties for smaller screens */
-  .primary-yellow {font-size: 0.9rem;
-    padding: 10px 20px; }
+.item-center {
+  place-self: center;
 }
 
-@media (max-width: 480px) {
-  /* Adjust grid properties for smaller screens */
-  .primary-yellow {font-size: 0.9rem;
-    padding: 10px 20px;}
+.w-75 {
+  width: 75%;
 }
+
+@media (max-width: 800px) {
+  /* Adjust  properties for smaller screens */
+  
+  .button-big { 
+    font-size: 1rem;
+    padding: 10px 15px;
+    border-radius: 6px;
+  }
+}
+
+
+@media (max-width: 480px) {
+  /* Adjust  properties for smaller screens */
+  
+}
+
 .sub-title {
   font-family: "Karla", sans-serif;
   font-size: 1.5rem;

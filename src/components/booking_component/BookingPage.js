@@ -1,11 +1,14 @@
 import React from "react";
 import "./booking_styles.css";
+import Banner from "../banner_component/Banner";
+import BookingForm from "./BookingForm";
 
 const BookingPage = () => {
   return (
-    <div className="booking">
-        <p>esta es la booking page</p>
-    </div>
+    <>
+        <Banner/>
+        <BookingForm />
+    </>
   )
 }
 

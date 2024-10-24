@@ -1,4 +1,8 @@
 .booking {
-  background-color: rgb(128, 128, 128);
-  height: 400px;
+  width: 85vw;
+  height: 100vh;
+  padding: 0;
+  margin: 0 auto;
+  background-color: var(--white);
+  /* background-color: white; */
 }

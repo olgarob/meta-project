@@ -64,6 +64,8 @@
 @media (max-width: 700px) {
   .about-container {
   grid-template-columns: 70%;
+  padding-left: 20px;
+  padding-right: 20px;
   }
   
   .about h1 {font-size: 2.5rem}

@@ -1,0 +1,40 @@
+/* .banner {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows:auto;
+  grid-gap: 2rem;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  background: #495E57;
+  color: #ffffff;
+  padding-left: 70px;
+  padding-right: 70px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+ 
+} */
+
+.banner {
+  display:flex;
+  grid-gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  justify-items: center;
+  background: #495E57;
+  color: #ffffff;
+  padding-left: 70px;
+  padding-right: 70px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+}
+
+.banner-image {
+  max-width: 600px;
+  /* height: auto; */
+}
+
+.banner h4 {
+  padding-top: 20px;
+}

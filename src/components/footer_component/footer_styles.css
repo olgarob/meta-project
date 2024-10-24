@@ -5,7 +5,7 @@ footer {
   grid-gap: 2rem;
   justify-items: center;
   /* align-items: center; */
-  background: #495E57;
+  background: var(--primary_green);
   color: #ffffff;
   padding: 20px 70px 20px 70px;
   text-align: center;
@@ -29,37 +29,29 @@ footer {
   }
 }
 
-
-
-
 .logo-container {
   padding: 10px;
 }
 
 footer ul {
   list-style: none;
-  
   margin: 0;
   padding: 0;
 }
 
 footer li {
-  
   margin-top: 5px;
   margin-bottom: 5px;
- 
 }
 
 footer a {
   text-decoration: none;
   color: #ffffff;
-  
   padding: 8px;
-  
 }
 
 footer a:link {
-  color: #F4CE14;
+  color: #fff;
 }
 
 footer a:visited {
@@ -67,6 +59,5 @@ footer a:visited {
 }
 
 footer a:hover {
-  
   color :#F4CE14;
 }
