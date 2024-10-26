@@ -1,9 +1,9 @@
 import React, {useState} from "react";
 import { Link } from "react-router-dom";
 import "./bookingform_styles.css";
-import {availableTimes} from '../../data/availableTimes.js';
+
 import StepTracker from "./StepTracker";
-import { validateEmail, validateResDate, convertToDate} from "../../utils";
+import { validateEmail, validateResDate, convertToDate, substractDates} from "../../utils";
 
 const steps=["Details", "Confirm", "End"];
 
@@ -13,14 +13,15 @@ const FieldErrorMessage = ({message}) => {
   );
 };
 
-const BookingForm = () => {
-  
+const BookingForm = ({availableTimes, dispatch, inAdvance}) => {
+
   let minDate = new Date();
   let maxDate= new Date();
-  maxDate.setDate(maxDate.getDate() + 7);
+  maxDate.setDate(maxDate.getDate() + inAdvance-1);
+   
   let strMinDate = minDate.getFullYear()+"-"+(minDate.getMonth()+1)+ "-" +minDate.getDate();
   let strMaxDate = maxDate.getFullYear()+"-"+(maxDate.getMonth()+1)+ "-" +maxDate.getDate();
-  
+      
   const [resDate, setResDate]=useState({value: strMinDate,isTouched: false });
   const [resTime, setResTime]=useState(availableTimes[0]);
   const [guests, setGuests]=useState(1);
@@ -32,7 +33,7 @@ const BookingForm = () => {
   const [phone, setPhone] = useState({value: "", isTouched: false});
   const [comment, setComment] = useState("");
   const [isChecked, setIsChecked] = useState(true);
-
+   
   const [stepCounter, setStepCounter]=useState(0);
 
    const getIsFormValidStep1 = () => {
@@ -44,8 +45,7 @@ const BookingForm = () => {
         && lastName.value.trim().length>=2 && phone.value.trim().length>=7 && isChecked;
   };
 
-  
-  /* const resetForm = () =>{
+    /* const resetForm = () =>{
     
   } */
 
@@ -67,6 +67,12 @@ const BookingForm = () => {
     setStepCounter((stepCounter) => stepCounter-1);
   }
 
+  function changeDate (e) {
+    let newDay=substractDates(e.target.value,strMinDate);
+    setResDate({...resDate, value:e.target.value});
+    dispatch({type: "UPDATE_AVAILABLE_TIMES", payload: newDay});
+  }; 
+
   return (
     <div className="form-container">
      <h3 className="text-center">Reserve a table</h3>
@@ -87,7 +93,7 @@ const BookingForm = () => {
                   value={resDate.value} 
                   min={strMinDate}
                   max={strMaxDate}
-                  onChange={e => setResDate({...resDate, value:e.target.value})}
+                  onChange={changeDate}
                   onBlur={ e => setResDate({...resDate, isTouched: true})} 
                 />
                 {!validateResDate(resDate.value, strMinDate, strMaxDate) && resDate.isTouched && <FieldErrorMessage message="Select a valid date"/>}

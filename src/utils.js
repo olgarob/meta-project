@@ -28,3 +28,11 @@ export const validateResDate = (resDate, startDate, endDate) => {
   else return true;
 
 }
+// arguments are strings in the form YYYY-MM-DD
+export const substractDates = (date1,date2) => {
+  let firstDate= convertToDate(date1);
+  let secondDate= convertToDate(date2);
+  const oneDay = 24 * 60 * 60 * 1000; // milliseconds in one day
+  const diffInMilliseconds = firstDate.getTime() - secondDate.getTime();
+  return Math.round(diffInMilliseconds / oneDay); // Convert milliseconds to days
+}
