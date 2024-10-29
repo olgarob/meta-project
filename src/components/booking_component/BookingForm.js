@@ -1,6 +1,9 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { Link } from "react-router-dom";
+
 import "./bookingform_styles.css";
+import BookingSlots from "./BookingSlots";
+import ConfirmationPage from "./ConfirmationPage";
 
 import StepTracker from "./StepTracker";
 import { validateEmail, validateResDate, convertToDate, substractDates} from "../../utils";
@@ -13,17 +16,28 @@ const FieldErrorMessage = ({message}) => {
   );
 };
 
-const BookingForm = ({availableTimes, dispatch, inAdvance}) => {
+const BookingForm = ({availableTimes, dispatch, inAdvance, submitFunction}) => {
 
+  const pad = (str) => String(str).padStart(2, "0");
+    
   let minDate = new Date();
   let maxDate= new Date();
   maxDate.setDate(maxDate.getDate() + inAdvance-1);
-   
-  let strMinDate = minDate.getFullYear()+"-"+(minDate.getMonth()+1)+ "-" +minDate.getDate();
-  let strMaxDate = maxDate.getFullYear()+"-"+(maxDate.getMonth()+1)+ "-" +maxDate.getDate();
-      
+
+  console.log("la fecha minima es", minDate);
+  
+  // this does not return the local date
+  /* let strMinDate = minDate.toISOString().substring(0, 10);
+  let strMaxDate = maxDate.toISOString().substring(0, 10); */
+
+  let strMinDate = minDate.getFullYear()+"-"+pad((minDate.getMonth()+1))+ "-" +pad(minDate.getDate());
+  let strMaxDate = maxDate.getFullYear()+"-"+pad((maxDate.getMonth()+1))+ "-" +pad(maxDate.getDate());
+
+
+  console.log("el strin es", strMinDate, strMaxDate);
+
   const [resDate, setResDate]=useState({value: strMinDate,isTouched: false });
-  const [resTime, setResTime]=useState(availableTimes[0]);
+  const [resTime, setResTime]=useState("");
   const [guests, setGuests]=useState(1);
   const [occasion, setOccasion]=useState("None");
   const [seating, setSeating]=useState("Standard");
@@ -36,8 +50,13 @@ const BookingForm = ({availableTimes, dispatch, inAdvance}) => {
    
   const [stepCounter, setStepCounter]=useState(0);
 
+  const [formData, setFormdata]=useState({});
+  const[formSubmitted, setFormSubmitted]=useState(false);
+
+  // useEffect (setResTime(availableTimes[0]),[availableTimes]);
+
    const getIsFormValidStep1 = () => {
-    return validateResDate(resDate.value, strMinDate, strMaxDate);
+    return validateResDate(resDate.value, strMinDate, strMaxDate) && resTime;
   };
 
   const getIsFormValidStep2 = () => {
@@ -51,10 +70,28 @@ const BookingForm = ({availableTimes, dispatch, inAdvance}) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setStepCounter((stepCounter) => stepCounter+1);
-    // here come the actions to enter the data into the reservation system database
-    console.log("Form submitted");
+        // here come the actions to enter the data into the reservation system database
+    setFormdata({
+      reservationDate:resDate.value,
+      reservationTime: resTime,
+      guestCount: guests,
+      specialOccasion: occasion,
+      seatingOption: seating,
+      guestFirstName: firstName.value,
+      guestLastName: lastName.value,
+      guestEmail: email.value,
+      guestPhone: phone.value,
+      guestComment: comment,
+      acceptTerms: isChecked
+    });
+    let response=submitFunction(formData);
+    if (response) {
+      setFormSubmitted(true);
+      console.log("Form submitted");
     // resetForm();
+     }
+    setStepCounter((stepCounter) => stepCounter+1);
+    
   }
 
   const handleNext = (e) => {
@@ -68,15 +105,22 @@ const BookingForm = ({availableTimes, dispatch, inAdvance}) => {
   }
 
   function changeDate (e) {
-    let newDay=substractDates(e.target.value,strMinDate);
+    let newDay=convertToDate(e.target.value);
+    // this use used in the second prototype with the mockdata:
+    // let newDay=substractDates(e.target.value,strMinDate);
     setResDate({...resDate, value:e.target.value});
-    dispatch({type: "UPDATE_AVAILABLE_TIMES", payload: newDay});
+    dispatch({type: "UPDATE_SELECTED_DATE", payload: newDay});
+    setResTime(availableTimes[0]);
   }; 
 
   return (
     <div className="form-container">
-     <h3 className="text-center">Reserve a table</h3>
-     <StepTracker stepCounter={stepCounter} steps={steps}/>
+      <h3 className="text-center">Reserve a table</h3>
+      <StepTracker stepCounter={stepCounter} steps={steps}/>
+      <div className="bookingslots">
+      {stepCounter<1 && <p>Available times: <span>(Reservations only 7 days in advance)</span></p>}
+        {stepCounter<1 && validateResDate(resDate.value, strMinDate, strMaxDate) &&<BookingSlots availableSlots={availableTimes}/>}
+      </div>
       <form>
         <div className="fieldset">
          {stepCounter<2 && <span>* Required</span>}
@@ -96,7 +140,7 @@ const BookingForm = ({availableTimes, dispatch, inAdvance}) => {
                   onChange={changeDate}
                   onBlur={ e => setResDate({...resDate, isTouched: true})} 
                 />
-                {!validateResDate(resDate.value, strMinDate, strMaxDate) && resDate.isTouched && <FieldErrorMessage message="Select a valid date"/>}
+                {!validateResDate(resDate.value, strMinDate, strMaxDate)  && <FieldErrorMessage message="Select a valid date"/>}
               </div>
               <div className="Field">
                 <label htmlFor="resTime">Choose time<sup>*</sup></label>
@@ -105,10 +149,12 @@ const BookingForm = ({availableTimes, dispatch, inAdvance}) => {
                   name="resTime"
                   value={resTime}
                   onChange={e => setResTime(e.target.value)}>
+                    {resTime==="" && <option>Select time</option>}
                   {availableTimes.map((time, idx) =>{
                     return <option key={idx}>{time}</option>
                   })}
                 </select>
+                {(resTime==="Select time" || resTime==="")  && <FieldErrorMessage message="Select a valid time"/>}
               </div>
             </div>
             <div className="Row">
@@ -233,27 +279,17 @@ const BookingForm = ({availableTimes, dispatch, inAdvance}) => {
             </div>
           </div>
           <div id="step-2" className={`form-step ${stepCounter=== 2 ? 'form-step-active' : ''}`}>
-            <div className="summary">
-                <h4>Reservation Data:</h4>
-                <p>Date: {convertToDate(resDate.value).toDateString()} <br/>
-                  Time: {resTime}<br/>
-                  Number of guest: {guests}<br/>
-                  Ocassion: {occasion}<br/>
-                  Seating: {seating}<br/>
-                  Request: {comment}
-                </p><br/>
-                <h4>Reservation confirmed!</h4><br/>
-            </div>
-            <div>
-                <p><strong>Dear {firstName.value}</strong>,<br/><br/>
-                Thank you for reserving a table at Little Lemon!<br/>
-                You will receive your reservation confirmation by email.</p><br/>
-                <p><strong>Remember:</strong><br/>
-                Your table will be kept free for max. 30 minutes after reservation time.</p><br/>
-            </div>
-            <div className="button-container item-center">
-              <Link to="/"><button className="primary-green" >Back to Homepage</button></Link>
-            </div>
+            {formSubmitted ?  <ConfirmationPage formData={formData} /> : 
+            <div className="failure">
+              <p>Oops</p>
+              <p>Something went wrong!</p>
+              <p>Let's try again later</p><br/>
+              <div className="btns-group">
+              <div className="item-center"><button   className="primary-green w-100" onClick={handlePrevious}>Previous</button></div>
+              <Link to="/"><button className="primary-green w-100" >Cancel</button></Link>
+              </div>
+            </div>}
+
           </div>
         </div>
       </form>

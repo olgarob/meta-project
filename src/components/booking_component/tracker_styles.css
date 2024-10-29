@@ -4,7 +4,7 @@
   display: flex;
   justify-content: space-between;
   counter-reset: step;
-  margin: 2rem 0 4rem;
+  /* margin: 2rem 0 4rem; */
   width: 320px;
   margin: 20px auto 40px auto;
 }

@@ -8,6 +8,7 @@ export const availableTimesArray= [
   "22:00"
 ]
 
+// following function was used in the second prototype, before switching to the API function
 // hypothetically following booking spots come from a database somewhere
 // The restaurant only allows bookings X days in advance. for this example X is 7
 // the app retrieves the booking slots for 7 days beginning today

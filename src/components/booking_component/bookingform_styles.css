@@ -24,9 +24,6 @@
   margin: 0;
 }
 
-.summary p {
-  font-size: 0.8rem;
-}
 
 label {
   margin: 4px 0;
@@ -137,6 +134,29 @@ input[type=number] {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
+}
+
+.bookingslots {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
+.bookingslots span {
+  font-size: 0.7rem;
+}
+
+.summary > p {
+  font-size: 0.9rem;
+}
+
+.summary strong {
+  color: var(--secondary_dark);
+}
+
+.failure{
+  color: red;
 }
 
 /* .width-50 {
