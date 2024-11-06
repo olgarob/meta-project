@@ -3,8 +3,7 @@ import { HashLink } from 'react-router-hash-link';
 import { convertToDate} from "../../utils";
 
 const ConfirmationPage = ({formData}) => {
-
-  console.log("llegaron", formData);
+  
   return (
   <>
     <div className="summary">

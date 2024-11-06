@@ -9,13 +9,12 @@ const timesReducer = (state, action) => {
   const {type, payload} = action;
   switch(type){
     case "UPDATE_AVAILABLE_TIMES":
-      console.log("se actualizaron los slots")
+      
       return {...state, availableTimes: payload.freeS, dailySlots: payload.totalS}
 
     case "UPDATE_SELECTED_DATE":
       
       return {...state, selectedDate: payload}
-
     
     default:
       return state;

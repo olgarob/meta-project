@@ -42,11 +42,9 @@ const BookingForm = ({availableTimes, dailySlots, dispatch, topDispatch, inAdvan
     if (formData.reservationDate) {
       let response=submitFunction(formData);
        if (response) {
-        console.log("la respuesta fue true");
         topDispatch({type: "UPDATE_AVAILABLE_SLOTS", payload: formData});
         setFormSubmitted(true);
         console.log("Form submitted");
-       console.log("los datos de la reserva son",formData);
       // resetForm();
        }
       setStepCounter((stepCounter) => stepCounter+1);
@@ -197,7 +195,7 @@ const BookingForm = ({availableTimes, dailySlots, dispatch, topDispatch, inAdvan
               </div>
             </div>
             <div className="button-container item-center">
-            <button className="primary-green" disabled={!getIsFormValidStep1()} onClick={handleNext}> Make Your reservation</button>
+            <button className="primary-green" disabled={!getIsFormValidStep1()} onClick={handleNext}>Make Your reservation</button>
             </div>
             <div className="cancel-container">
             <HashLink to="/#top-of-page"><button className="btn-red cancel-btn" >Cancel</button></HashLink> 

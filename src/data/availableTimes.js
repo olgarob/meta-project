@@ -17,7 +17,7 @@ export const availableTimesArray= [
 
 export const fetchBookingslots = (daysToLookAt) =>{
   // here should come a funtion for fetching the data from the database
- console.log(daysToLookAt);
+ 
   let bookingSlots=[
     [
       { time: "17:00", booked: false, customerFirstName: "", customerLastName: "", guests: 0 },

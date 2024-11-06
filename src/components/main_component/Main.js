@@ -13,28 +13,23 @@ const slotsReducer = (state, action) => {
   const {type, payload} = action;
   switch(type){
     case "LOAD_MOCKDATA" :
-      console.log("the payload is for total slots", payload)
       return {...state, currentBookingSlots: payload}
 
     case "UPDATE_AVAILABLE_SLOTS" :
-      let newSlots = updateBookingSlots(state, payload);
-      console.log("the new slots are", newSlots);
+      let newSlots = updateBookingSlots(state.currentBookingSlots, payload);
       return {...state, currentBookingSlots: newSlots }
+
     default:
       return state;
   }
 }
 
-const updateBookingSlots = (state, reservation) => {
-  console.log("el dia escogido es", reservation.reservationDate);
-  console.log("el dia de referencia es", firstDate);
+const updateBookingSlots = (currentSlots, reservation) => {
+  
   let newIndex =  substractDates(reservation.reservationDate, firstDate);
-  console.log("el indice es", newIndex);
-  let data= state.currentBookingSlots[newIndex];
+  let data= currentSlots[newIndex];
   let k=data.findIndex((day)=> day.time===reservation.reservationTime);
-  console.log("el segundo indice es", k);
-  console.log(reservation.reservationTime);
-  let newSlots= state.currentBookingSlots;
+  let newSlots= currentSlots;
   let newBooking={
       time: reservation.reservationTime, 
       booked: true, 
@@ -44,7 +39,6 @@ const updateBookingSlots = (state, reservation) => {
   newSlots[newIndex][k]=newBooking;
   return newSlots;
 };
-
 
 const Main = () => {
 
