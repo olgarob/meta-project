@@ -18,7 +18,7 @@ const Nav = () => {
 
 
   return (
-    <nav className="nav">
+    <nav className="nav" id="top-of-page">
       <div className="logo-container" >
        <Link to="/"><img className="img-responsive" src={logo} alt="Little Lemon Logo"/></Link>
       </div>

@@ -23,5 +23,6 @@ export const fetchAPI = function(date) {
 };
 
 export const submitAPI = function(formData) {
-  return false;
+  // here should the database be updated with te reservation data
+  return true;
 };

@@ -1,12 +1,10 @@
 import React, {useState, useEffect} from "react";
-import { Link } from "react-router-dom";
-
+import { HashLink } from 'react-router-hash-link';
 import "./bookingform_styles.css";
 import BookingSlots from "./BookingSlots";
 import ConfirmationPage from "./ConfirmationPage";
-
 import StepTracker from "./StepTracker";
-import { validateEmail, validateResDate, convertToDate, substractDates} from "../../utils";
+import { validateEmail, validateResDate, convertToDate, pad} from "../../utils";
 
 const steps=["Details", "Confirm", "End"];
 
@@ -16,25 +14,14 @@ const FieldErrorMessage = ({message}) => {
   );
 };
 
-const BookingForm = ({availableTimes, dispatch, inAdvance, submitFunction}) => {
-
-  const pad = (str) => String(str).padStart(2, "0");
+const BookingForm = ({availableTimes, dailySlots, dispatch, topDispatch, inAdvance, submitFunction}) => {
     
   let minDate = new Date();
   let maxDate= new Date();
   maxDate.setDate(maxDate.getDate() + inAdvance-1);
 
-  console.log("la fecha minima es", minDate);
-  
-  // this does not return the local date
-  /* let strMinDate = minDate.toISOString().substring(0, 10);
-  let strMaxDate = maxDate.toISOString().substring(0, 10); */
-
   let strMinDate = minDate.getFullYear()+"-"+pad((minDate.getMonth()+1))+ "-" +pad(minDate.getDate());
   let strMaxDate = maxDate.getFullYear()+"-"+pad((maxDate.getMonth()+1))+ "-" +pad(maxDate.getDate());
-
-
-  console.log("el strin es", strMinDate, strMaxDate);
 
   const [resDate, setResDate]=useState({value: strMinDate,isTouched: false });
   const [resTime, setResTime]=useState("");
@@ -47,13 +34,25 @@ const BookingForm = ({availableTimes, dispatch, inAdvance, submitFunction}) => {
   const [phone, setPhone] = useState({value: "", isTouched: false});
   const [comment, setComment] = useState("");
   const [isChecked, setIsChecked] = useState(true);
-   
   const [stepCounter, setStepCounter]=useState(0);
-
-  const [formData, setFormdata]=useState({});
+  const [formData, setFormData]=useState({});
   const[formSubmitted, setFormSubmitted]=useState(false);
 
-  // useEffect (setResTime(availableTimes[0]),[availableTimes]);
+  useEffect(() => {
+    if (formData.reservationDate) {
+      let response=submitFunction(formData);
+       if (response) {
+        console.log("la respuesta fue true");
+        topDispatch({type: "UPDATE_AVAILABLE_SLOTS", payload: formData});
+        setFormSubmitted(true);
+        console.log("Form submitted");
+       console.log("los datos de la reserva son",formData);
+      // resetForm();
+       }
+      setStepCounter((stepCounter) => stepCounter+1);
+     }
+    
+  },[formData])
 
    const getIsFormValidStep1 = () => {
     return validateResDate(resDate.value, strMinDate, strMaxDate) && resTime;
@@ -65,14 +64,15 @@ const BookingForm = ({availableTimes, dispatch, inAdvance, submitFunction}) => {
   };
 
     /* const resetForm = () =>{
-    
+    form gets automatically reset when returning to homepage after confirm or cancel  
   } */
 
   const handleSubmit = (e) => {
     e.preventDefault();
         // here come the actions to enter the data into the reservation system database
-    setFormdata({
-      reservationDate:resDate.value,
+      let newDay=convertToDate(resDate.value);
+      setFormData({ ...formData,
+      reservationDate: newDay,
       reservationTime: resTime,
       guestCount: guests,
       specialOccasion: occasion,
@@ -84,14 +84,6 @@ const BookingForm = ({availableTimes, dispatch, inAdvance, submitFunction}) => {
       guestComment: comment,
       acceptTerms: isChecked
     });
-    let response=submitFunction(formData);
-    if (response) {
-      setFormSubmitted(true);
-      console.log("Form submitted");
-    // resetForm();
-     }
-    setStepCounter((stepCounter) => stepCounter+1);
-    
   }
 
   const handleNext = (e) => {
@@ -106,8 +98,7 @@ const BookingForm = ({availableTimes, dispatch, inAdvance, submitFunction}) => {
 
   function changeDate (e) {
     let newDay=convertToDate(e.target.value);
-    // this use used in the second prototype with the mockdata:
-    // let newDay=substractDates(e.target.value,strMinDate);
+    
     setResDate({...resDate, value:e.target.value});
     dispatch({type: "UPDATE_SELECTED_DATE", payload: newDay});
     setResTime(availableTimes[0]);
@@ -118,8 +109,12 @@ const BookingForm = ({availableTimes, dispatch, inAdvance, submitFunction}) => {
       <h3 className="text-center">Reserve a table</h3>
       <StepTracker stepCounter={stepCounter} steps={steps}/>
       <div className="bookingslots">
-      {stepCounter<1 && <p>Available times: <span>(Reservations only 7 days in advance)</span></p>}
-        {stepCounter<1 && validateResDate(resDate.value, strMinDate, strMaxDate) &&<BookingSlots availableSlots={availableTimes}/>}
+        {stepCounter<1 && 
+        <><p>Available times: <span>(Reservations max. 7 days in advance)</span></p>
+          <div ><span className="dot"></span>Not available</div>
+        </>}
+          {stepCounter<1 && validateResDate(resDate.value, strMinDate, strMaxDate) && dailySlots[0] 
+          &&<BookingSlots dailySlots={dailySlots}/>}
       </div>
       <form>
         <div className="fieldset">
@@ -204,20 +199,27 @@ const BookingForm = ({availableTimes, dispatch, inAdvance, submitFunction}) => {
             <div className="button-container item-center">
             <button className="primary-green" disabled={!getIsFormValidStep1()} onClick={handleNext}> Make Your reservation</button>
             </div>
+            <div className="cancel-container">
+            <HashLink to="/#top-of-page"><button className="btn-red cancel-btn" >Cancel</button></HashLink> 
+            </div>
           </div>
           <div id="step-1" className={`form-step ${stepCounter=== 1 ? 'form-step-active' : ''}`}>
             <div className="Row">
               <div className="Field">
-                <label>First name <sup>*</sup></label>
+                <label htmlFor="firstname">First name <sup>*</sup></label>
                 <input value={firstName.value} 
+                  name="firstname"
+                  id="firstname"
                   onChange={e =>setFirstName({...firstName, value: e.target.value.trimStart()})}
                   onBlur={ e => setFirstName({...firstName, isTouched: true})} 
                   placeholder="First name" />
                   {firstName.value.trim().length<2 && firstName.isTouched && <FieldErrorMessage message="This field is required"/>}
               </div>
               <div className="Field">
-                <label>Last name <sup>*</sup></label>
+                <label htmlFor="lastname">Last name <sup>*</sup></label>
                 <input value={lastName.value} 
+                name="lastname"
+                id="lastname"
                 onChange={e => setLastName({...lastName , value: e.target.value.trimStart()})}
                 onBlur={ e => setLastName({...lastName, isTouched: true})}
                 placeholder="Last name" />
@@ -226,16 +228,20 @@ const BookingForm = ({availableTimes, dispatch, inAdvance, submitFunction}) => {
             </div>
             <div className="Row">
               <div className="Field">
-                <label>Email address <sup>*</sup></label>
+                <label htmlFor="email">Email address <sup>*</sup></label>
                 <input value={email.value} 
+                  name="email"
+                  id="email"
                   onChange={e => setEmail({...email, value: e.target.value})} 
                   onBlur={ e => setEmail({...email, isTouched: true})}
                   placeholder="Email address" />
                   {!validateEmail(email.value) && email.isTouched && <FieldErrorMessage message="Please enter a valid email"/>}
               </div>
               <div className="Field">
-                <label>Phone<sup>*</sup></label>
+                <label htmlFor="phone">Phone<sup>*</sup></label>
                 <input type="tel" value={phone.value} 
+                  name="phone"
+                  id="phone"
                   onChange={e => setPhone({...phone, value: e.target.value})}
                   onBlur={ e => setPhone({...phone, isTouched: true})}
                   placeholder="Phone" />
@@ -274,8 +280,11 @@ const BookingForm = ({availableTimes, dispatch, inAdvance, submitFunction}) => {
                 </p><br/>
              </div>
             <div className="btns-group">
-              <div className="item-center"><button   className="primary-green w-100" onClick={handlePrevious}>Previous</button></div>
-              <div className="item-center"> <button className="primary-green w-100" disabled={!getIsFormValidStep2()} onClick={handleSubmit}>Confirm</button></div>
+              <div className="item-center"><button   className="primary-green w-100" aria-label="On Click" onClick={handlePrevious}>Previous</button></div>
+              <div className="item-center"> <button className="primary-green w-100" aria-label="On Click" disabled={!getIsFormValidStep2()} onClick={handleSubmit}>Confirm</button></div>
+            </div>
+            <div className="cancel-container">
+            <HashLink to="/#top-of-page"><button className="btn-red cancel-btn" >Cancel</button></HashLink> 
             </div>
           </div>
           <div id="step-2" className={`form-step ${stepCounter=== 2 ? 'form-step-active' : ''}`}>
@@ -285,8 +294,8 @@ const BookingForm = ({availableTimes, dispatch, inAdvance, submitFunction}) => {
               <p>Something went wrong!</p>
               <p>Let's try again later</p><br/>
               <div className="btns-group">
-              <div className="item-center"><button   className="primary-green w-100" onClick={handlePrevious}>Previous</button></div>
-              <Link to="/"><button className="primary-green w-100" >Cancel</button></Link>
+              <div className="item-center"><button   className="primary-green w-100" aria-label="On Click" onClick={handlePrevious}>Previous</button></div>
+              <HashLink to="/#top-of-page"><button className="btn-red  w-100" >Cancel</button></HashLink>
               </div>
             </div>}
 

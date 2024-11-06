@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { HashLink } from 'react-router-hash-link';
 import { convertToDate} from "../../utils";
 
 const ConfirmationPage = ({formData}) => {
@@ -9,7 +10,7 @@ const ConfirmationPage = ({formData}) => {
     <div className="summary">
       <h4>Reservation Data:</h4>
       <p>
-        <strong>Date:</strong> {convertToDate(formData.reservationDate).toDateString()} <br/>
+        <strong>Date:</strong> {formData.reservationDate.toDateString()} <br/>
         <strong>Time:</strong> {formData.reservationTime}<br/>
         <strong>Number of guest:</strong> {formData.guestCount}<br/>
         <strong>Ocassion:</strong> {formData.specialOccasion}<br/>
@@ -26,7 +27,7 @@ const ConfirmationPage = ({formData}) => {
       Your table will be kept free for max. 30 minutes after reservation time.</p><br/>
     </div>
     <div className="button-container item-center">
-      <Link to="/"><button className="primary-green" >Back to Homepage</button></Link>
+      <HashLink to="/#top-of-page"><button className="primary-green" >Back to Homepage</button></HashLink>
     </div>
 </>
   )

@@ -28,11 +28,13 @@ export const validateResDate = (resDate, startDate, endDate) => {
   else return true;
 
 }
-// arguments are strings in the form YYYY-MM-DD
+// arguments are in date format - only the date part, not hours, are taken into account
 export const substractDates = (date1,date2) => {
-  let firstDate= convertToDate(date1);
-  let secondDate= convertToDate(date2);
+  date1.setHours(0, 0, 0, 0);
+  date2.setHours(0, 0, 0, 0);
   const oneDay = 24 * 60 * 60 * 1000; // milliseconds in one day
-  const diffInMilliseconds = firstDate.getTime() - secondDate.getTime();
+  const diffInMilliseconds = date1.getTime() - date2.getTime();
   return Math.round(diffInMilliseconds / oneDay); // Convert milliseconds to days
 }
+
+export const pad = (str) => String(str).padStart(2, "0");

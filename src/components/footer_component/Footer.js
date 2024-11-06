@@ -22,10 +22,10 @@ const Footer = () => {
       </div>
       <div>
       <ul>
-        <li> <Link to="/">Home</Link></li>
+        <li> <HashLink to="/#top-of-page">Home</HashLink></li>
         <li><HashLink to="/#about-section">About</HashLink></li>
         <li><a href="#">Menu</a></li>
-        <li><Link to="/booking">Reservations</Link></li>
+        <li><HashLink to="/booking#top-of-page">Reservations</HashLink></li>
         <li><a href="#">Order online</a></li>
         <li><a href="#">Login</a></li>
       </ul>

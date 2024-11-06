@@ -1,13 +1,15 @@
 import "./bookingslots_styles.css";
 
-const BookingSlots = ({availableSlots}) => {
+const BookingSlots = ({dailySlots}) => {
 
   return (
     
     <div className="availableslots">
       
-      {availableSlots.map((time, idx) =>{
-        return <div className="time" key={idx}>{time}</div>
+      {dailySlots.map((slot, idx) =>{
+        return <div
+        className={`time ${slot.booked ? 'not-available' : ''}`}
+        key={idx}>{slot.time}</div>
       })}
     </div>
     
